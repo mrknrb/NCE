@@ -8,9 +8,7 @@
         public bool randomulesrend;
         public int tanulokszama;
         public int puskazokszama;
-        public int entrance;
-        public bool hatul;
-        public bool oldalt;
+        public bool duplaPad;
 
         public int alertness;
         public int sitting;

@@ -434,11 +434,6 @@ MonoBehaviour:
   m_AreaLightEmissiveMeshShadowCastingMode: 0
   m_AreaLightEmissiveMeshMotionVectorGenerationMode: 0
   m_AreaLightEmissiveMeshLayer: -1
---- !u!4 &279954659 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 104525648953304112, guid: e880735f2a031454c8ebc43a9a55d786, type: 3}
-  m_PrefabInstance: {fileID: 4196435059921417773}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &405290144
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2454,7 +2449,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7569104181120247262, guid: e880735f2a031454c8ebc43a9a55d786, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.31
+      value: 1.796
       objectReference: {fileID: 0}
     - target: {fileID: 7569104181120247262, guid: e880735f2a031454c8ebc43a9a55d786, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2488,9 +2483,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9159147471598871063, guid: e880735f2a031454c8ebc43a9a55d786, type: 3}
-      propertyPath: playerBody
-      value: 
-      objectReference: {fileID: 279954659}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e880735f2a031454c8ebc43a9a55d786, type: 3}

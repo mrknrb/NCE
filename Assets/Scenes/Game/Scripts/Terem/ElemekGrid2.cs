@@ -1,29 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ECASimulator.Elemek;
 using ECASimulator.Structs;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace ECASimulator.Terem
 {
-    public class ElemekGrid
+    public class ElemekGrid2
     {
         private Main main;
         public Elem[,] gridElements;
-        public ElemekGrid(Main main2)
+
+        public ElemekGrid2(Main main2)
         {
             main = main2;
             generalas();
         }
-        
+
         private void generalas()
         {
             var mentes = this.main.mentes;
-
             int elemid = -1;
             int padid = -1;
             int tanuloid = -1;
-            var entranceNumbers = OszlopEntranceNumbers.Generate(mentes.oszlop, mentes.entrance);
+            var entranceNumbers = oszlopEntranceNumbersGenerator(mentes.oszlop, mentes.duplaPad);
 
             Elem[,] grid = new Elem[osszesoszlop(mentes), osszessor(mentes)];
             var hanyadiktanulolist = hanyadiktanulo(mentes);
@@ -41,18 +42,28 @@ namespace ECASimulator.Terem
                     elem.puskazo = false;
                     elem.tanuloid = 0;
                     //-----------------------------------------------------------------------Padok generálás
-                    if (sor == grid.GetLength(1) - 1 && mentes.hatul) //sor
-                    {
-                        elem.tipus = "ures";
-                    }
-
-                    if (sor == 0 || sor == 1 || sor == 2) //sor
+                    if (sor == 0 || sor == 1 || sor == 2 || sor == grid.GetLength(1) - 1) //sor
                     {
                         elem.tipus = "ures";
                     }
 
                     //---------------------------------------
-                    elem.tipus = elemtipusgeneralooszlop(mentes, grid.GetLength(0), entranceNumbers, oszlop, elem.tipus);
+
+                  
+                    if (oszlop == 0  || oszlop == grid.GetLength(0)-1)
+                    {
+                        elem.tipus = "ures";
+                    }
+
+                  
+
+                    foreach (var entranceNumber in entranceNumbers)
+                    {
+                        if (oszlop == entranceNumber )
+                        {
+                            elem.tipus = "ures";
+                        }
+                    }
 
                     //---------------------------------------------------------------------Üres terem legenerálva
                     if (elem.tipus == "pad")
@@ -66,7 +77,7 @@ namespace ECASimulator.Terem
                                 tanuloid++;
                                 elem.tanuloid = tanuloid;
                                 elem.tipus = "tanulo";
-                               
+
                                 foreach (var sorszam in puskazok)
                                 {
                                     if (sorszam == tanulosorszam)
@@ -114,9 +125,6 @@ namespace ECASimulator.Terem
                     elem.padid = padid;
                     elem.karma = karmagenerator(elem.puskazo);
                     grid[oszlop, sor] = elem;
-
-                    
-                    
                 }
             }
 
@@ -141,6 +149,7 @@ namespace ECASimulator.Terem
 
         private List<int> hanyadiktanulo(Mentes mentes)
         {
+            //visszadob annyi padid-t, amennyi tanulo van a mentesi beallitasok szerint
             int osszeshely = mentes.sor * mentes.oszlop;
             var padidlistatanulo = new List<int>();
 
@@ -215,56 +224,86 @@ namespace ECASimulator.Terem
             return padidlistatanulo;
         }
 
-        private string elemtipusgeneralooszlop(Mentes mentes, int osszesoszlopszam, int[] entranceNumbers, int i, string elemtipus2)
+        private int[] oszlopEntranceNumbersGenerator(int oszlopszam, bool duplapadok)
         {
-            string elemtipus = elemtipus2;
-            int pluszegyoszlopseged = 0;
-            if (mentes.oldalt)
+         
+            if (oszlopszam == 2)
             {
-                pluszegyoszlopseged = 1;
-            }
-
-            if (i == 0 && mentes.oldalt)
-            {
-                elemtipus = "ures";
-            }
-
-            if (i == osszesoszlopszam - 1 && mentes.oldalt)
-            {
-                elemtipus = "ures";
-            }
-
-            foreach (var entranceNumber in entranceNumbers)
-            {
-                if (i == entranceNumber + pluszegyoszlopseged)
+                if (duplapadok)
                 {
-                    elemtipus = "ures";
+                    int[] myNum = { };
+                    return myNum;
+                }
+                else
+                {
+                    int[] myNum = {2};
+                    return myNum;
                 }
             }
-
-            return elemtipus;
-        }
-
-       
-        private int osszesoszlop(Mentes mentes)
-        {
-           
-
-            var osszesoszlop = mentes.oszlop + mentes.entrance + 2;
-            return osszesoszlop;
-        }
-
-        private int osszessor(Mentes mentes)
-        {
-            int hatulsor = 0;
-            if (mentes.hatul )
+            if (oszlopszam == 4)
             {
-                hatulsor = 1;
+                if (duplapadok)
+                {
+                    int[] myNum = {3 };
+                    return myNum;
+                }
+                else
+                {
+                    int[] myNum = {2,4,6};
+                    return myNum;
+                }
+            }  if (oszlopszam == 6)
+            {
+                if (duplapadok)
+                {
+                    int[] myNum = {3,6 };
+                    return myNum;
+                }
+                else
+                {
+                    int[] myNum = {2,4,6,8,10};
+                    return myNum;
+                }
+            } if (oszlopszam == 8)
+            {
+                if (duplapadok)
+                {
+                    int[] myNum = {3,6 ,9};
+                    return myNum;
+                }
+                else
+                {
+                    int[] myNum = {2,4,6,8,10,12,14};
+                    return myNum;
+                }
             }
-
-            var osszessor = mentes.sor + hatulsor + 3;
-
-            return osszessor;
-        }
+            int[] myNum2 = {};
+            return myNum2;
     }
+
+
+    private int osszesoszlop(Mentes mentes)
+    {
+    int EntranceSzam = 0;
+        if (mentes.duplaPad)
+    {
+        EntranceSzam = (mentes.oszlop / 2) - 1;
+    }
+
+    else
+    {
+        EntranceSzam = mentes.oszlop - 1;
+    }
+
+    var osszesoszlop = 2 + mentes.oszlop + EntranceSzam;
+        return osszesoszlop;
+    }
+
+    private int osszessor(Mentes mentes)
+    {
+    var osszessor = mentes.sor + 3 + 1;
+        return osszessor;
+    }
+}
+
 }

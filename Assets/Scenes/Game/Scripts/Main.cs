@@ -21,6 +21,7 @@ namespace ECASimulator
 
         void Start()
         {
+            /* elemekgrid1
             mentes.sor = 10;
             mentes.oszlop = 8;
             mentes.egyhelykihagy = false;
@@ -28,6 +29,7 @@ namespace ECASimulator
             mentes.puskazokszama = 10;
             mentes.randomulesrend = true;
             mentes.entrance = 3;
+            
             mentes.hatul = true;
             mentes.oldalt = true;
 
@@ -38,8 +40,24 @@ namespace ECASimulator
             mentes.agressiveness = 7;
             mentes.eyes = 7;
             mentes.height = 7;
-            
-            
+            */
+            //elemekgrid2
+            mentes.sor = 10;
+            mentes.oszlop = 8;
+            mentes.egyhelykihagy = false;
+            mentes.tanulokszama = 30;
+            mentes.puskazokszama = 10;
+            mentes.randomulesrend = true;
+            mentes.duplaPad = true;
+
+
+            //Tanar tulajdonsagok
+            mentes.alertness = 7;
+            mentes.sitting = 7;
+            mentes.walking = 7;
+            mentes.agressiveness = 7;
+            mentes.eyes = 7;
+            mentes.height = 7;
             
 
             elemekGrid = new ElemekGrid(this);

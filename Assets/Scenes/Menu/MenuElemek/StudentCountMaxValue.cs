@@ -10,27 +10,27 @@ public class StudentCountMaxValue : MonoBehaviour
 
     public Slider columnCountSlider;
 
-    public Toggle doublePad;
     public Slider studentCountSlider;
+    public Toggle egyHelyKihagy;
+
     // Start is called before the first frame update
     void Start()
     {
         rowCountSlider.onValueChanged.AddListener (delegate {ValueChanged ();});
         columnCountSlider.onValueChanged.AddListener (delegate {ValueChanged ();});
-        doublePad.onValueChanged.AddListener (delegate {ValueChanged ();});
         ValueChanged();
     }
 
     void ValueChanged()
     {
-        float doublePadSzorzo = 1;
-        if (doublePad.isOn)
+        var osztas = 1;
+        if (egyHelyKihagy)
         {
-            doublePadSzorzo = 2;
+            osztas = 2;
         }
         
         
-        studentCountSlider.maxValue = rowCountSlider.value*columnCountSlider.value*doublePadSzorzo;
+        studentCountSlider.maxValue = (rowCountSlider.value*columnCountSlider.value*2/osztas)-1;
 
     }
 }

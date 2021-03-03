@@ -9,6 +9,7 @@ public class Szamcsuszka : MonoBehaviour
 {
     public Slider csuszka;
     public TextMeshProUGUI csuszkaValue;
+    public int szorzo;
 
     void Start()
     {
@@ -18,7 +19,7 @@ public class Szamcsuszka : MonoBehaviour
 
    void ValueChanged()
     {
-        var  elozoValue = Convert.ToInt32(Math.Floor(csuszka.value));
+        var  elozoValue = Convert.ToInt32(Math.Floor(csuszka.value))*szorzo;
                     csuszkaValue.text = elozoValue.ToString();
                     
     }
