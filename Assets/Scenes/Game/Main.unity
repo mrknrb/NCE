@@ -2437,7 +2437,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7200909955966224744, guid: e880735f2a031454c8ebc43a9a55d786, type: 3}
       propertyPath: m_Name
-      value: PlayerPuskazo
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7200909955966224744, guid: e880735f2a031454c8ebc43a9a55d786, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7569104181120247262, guid: e880735f2a031454c8ebc43a9a55d786, type: 3}
       propertyPath: m_RootOrder
@@ -2449,7 +2453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7569104181120247262, guid: e880735f2a031454c8ebc43a9a55d786, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.796
+      value: 0.998
       objectReference: {fileID: 0}
     - target: {fileID: 7569104181120247262, guid: e880735f2a031454c8ebc43a9a55d786, type: 3}
       propertyPath: m_LocalPosition.z

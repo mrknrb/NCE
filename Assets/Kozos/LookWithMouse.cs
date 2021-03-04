@@ -6,21 +6,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Collections;
 public class LookWithMouse : MonoBehaviour
 {
-    public float mouseSensitivity = 100f;
-
-    public Transform playerBody;
-
-    float xRotation = 0f;
-
-    // Start is called before the first frame update
-    void Start()
+    public float mouseSensitivity = 2f;
+    /*
+    private float x;
+    private float y;
+    private Vector3 rotateValue;
+ 
+    void Update()
+    {
+        y = Input.GetAxis("Mouse X");
+        x = Input.GetAxis("Mouse Y");
+        rotateValue = new Vector3(x, y * -1, 0);
+        transform.eulerAngles = transform.eulerAngles - rotateValue*mouseSensitivity;
+    }*/
+   void Start()
     {
    
         Cursor.lockState = CursorLockMode.Locked;
            
     }
+   
+  
+
+   
+
+    float xRotation = 0f;
+    float yRotation = 0f;
+    // Start is called before the first frame update
+ 
 
     // Update is called once per frame
     void FixedUpdate()
@@ -51,9 +67,11 @@ public class LookWithMouse : MonoBehaviour
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        yRotation -= mouseX;
+        yRotation = Mathf.Clamp(yRotation, -160f, 160f);
 
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
-        playerBody.Rotate(Vector3.up * mouseX);
+        transform.localRotation = Quaternion.Euler(xRotation, -yRotation, 0f);
+
     }
 }

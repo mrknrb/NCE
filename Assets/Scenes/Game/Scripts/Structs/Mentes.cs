@@ -9,6 +9,7 @@
         public int tanulokszama;
         public int puskazokszama;
         public bool duplaPad;
+        public Coordinates playerPosition;
 
         public int alertness;
         public int sitting;

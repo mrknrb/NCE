@@ -43,21 +43,21 @@ namespace ECASimulator
             */
             //elemekgrid2
             mentes.sor = 10;
-            mentes.oszlop = 8;
-            mentes.egyhelykihagy = false;
-            mentes.tanulokszama = 30;
+            mentes.oszlop = 6;
+            mentes.egyhelykihagy = true;
+            mentes.tanulokszama = 20;
             mentes.puskazokszama = 10;
             mentes.randomulesrend = true;
             mentes.duplaPad = true;
-
-
+            mentes.playerPosition.X = 2;
+            mentes.playerPosition.Y = 3;
             //Tanar tulajdonsagok
-            mentes.alertness = 7;
-            mentes.sitting = 7;
-            mentes.walking = 7;
-            mentes.agressiveness = 7;
-            mentes.eyes = 7;
-            mentes.height = 7;
+            mentes.alertness = 3;
+            mentes.sitting = 3;
+            mentes.walking = 3;
+            mentes.agressiveness = 3;
+            mentes.eyes = 3;
+            mentes.height = 3;
             
 
             elemekGrid = new ElemekGrid(this);
