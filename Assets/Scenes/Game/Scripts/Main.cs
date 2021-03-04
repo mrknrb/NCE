@@ -6,6 +6,7 @@ using UnityEngine;
 using Action = System.Action;
 using ECASimulator.Tanar;
 using ECASimulator.UI;
+using UnityEngine.Serialization;
 
 namespace ECASimulator
 {
@@ -13,7 +14,7 @@ namespace ECASimulator
     {
      
         public MainMenu mainMenu;
-        public ElemekGrid elemekGrid;
+        [FormerlySerializedAs("elemekGrid")] public ElemekGridClass elemekGridClass;
         public TanarMain tanar;
         public event Action update;
         public Mentes mentes;
@@ -60,8 +61,9 @@ namespace ECASimulator
             mentes.height = 3;
             
 
-            elemekGrid = new ElemekGrid(this);
-
+            elemekGridClass = new ElemekGridClass(this.mentes);
+            elemekGridClass.GeneralasGameObjectek();
+            
             tanar = new TanarMain(this);
             tanar.start();
         }

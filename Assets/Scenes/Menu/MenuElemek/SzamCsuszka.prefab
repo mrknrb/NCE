@@ -92,15 +92,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -172,8 +172,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 120}
+  m_AnchoredPosition: {x: -146.6206, y: 15.3186035}
+  m_SizeDelta: {x: 306.7587, y: 89.3631}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &773089532053268907
 CanvasRenderer:
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
+    m_Left: 5
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
@@ -289,7 +289,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 73.499, y: 40}
+  m_SizeDelta: {x: 43.1458, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &773089532534370804
 CanvasRenderer:
@@ -346,15 +346,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -484,9 +484,9 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_Spacing: 4
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
@@ -499,6 +499,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3034470378383071126}
     m_Modifications:
+    - target: {fileID: 6635925789297413873, guid: a450215067d0d1f45a4e437ec4d4cd31, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -4.999977
+      objectReference: {fileID: 0}
     - target: {fileID: 6635925789401097888, guid: a450215067d0d1f45a4e437ec4d4cd31, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -541,11 +545,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6635925789739709697, guid: a450215067d0d1f45a4e437ec4d4cd31, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 475.582
+      value: 248.3838
       objectReference: {fileID: 0}
     - target: {fileID: 6635925789739709697, guid: a450215067d0d1f45a4e437ec4d4cd31, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 59.922
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6635925789739709697, guid: a450215067d0d1f45a4e437ec4d4cd31, type: 3}
       propertyPath: m_LocalPosition.x

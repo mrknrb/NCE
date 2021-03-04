@@ -8,41 +8,41 @@ using Random = UnityEngine.Random;
 
 namespace ECASimulator.Terem
 {
-    public class ElemekGrid
+    public class ElemekGridClass
     {
-        private Main main;
+        private Mentes mentes;
         public Elem[,] gridElements;
 
-        public ElemekGrid(Main main2)
+        public ElemekGridClass(Mentes mentes)
         {
-            main = main2;
+            this.mentes = mentes;
             generalas();
         }
 
         private void generalas()
         {
-            var mentes = this.main.mentes;
+            var mentes = this.mentes;
             int elemid = -1;
             int padid = -1;
             int tanuloid = -1;
             var entranceNumbers = oszlopEntranceNumbersGenerator(mentes.oszlop, mentes.duplaPad);
 
-            Elem[,] grid = new Elem[osszesoszlop(mentes), osszessor(mentes)];
+            Elem[,] grid = new Elem[osszessor(mentes), osszesoszlop(mentes)];
             var hanyadiktanulolist = hanyadiktanulo(mentes);
             var puskazok = hanyadiktanulolist.Take(mentes.puskazokszama);
 
             Listkevero.Shuffle(hanyadiktanulolist);
             //------------------------------------------------------------------------------------------------------------------------grid megtöltése
-            for (int sor = 0; sor < grid.GetLength(1); sor++)
+            for (int sor = 0; sor < grid.GetLength(0); sor++)
             {
-                for (int oszlop = 0; oszlop < grid.GetLength(0); oszlop++)
+                for (int oszlop = 0; oszlop < grid.GetLength(1); oszlop++)
                 {
                     var elem = new Elem();
                     elem.tipus = "pad";
                     elem.puskazo = false;
                     elem.tanuloid = 0;
                     //-----------------------------------------------------------------------Padok generálás
-                    if (sor == 0 || sor == 1 || sor == 2 || sor == grid.GetLength(1) - 1) //sor
+                    if (sor == 0 || sor == 1 || sor == 2 || sor == grid.GetLength(0) - 1) //sor
                     {
                         elem.tipus = "ures";
                     }
@@ -50,7 +50,7 @@ namespace ECASimulator.Terem
                     //---------------------------------------
 
 
-                    if (oszlop == 0 || oszlop == grid.GetLength(0) - 1)
+                    if (oszlop == 0 || oszlop == grid.GetLength(1) - 1)
                     {
                         elem.tipus = "ures";
                     }
@@ -88,6 +88,28 @@ namespace ECASimulator.Terem
                         }
                     }
 
+
+                    //---------------------tanulok és puskazok berakasa
+
+                    elemid++;
+                    elem.elemid = elemid;
+                    elem.padid = padid;
+                    elem.karma = karmagenerator(elem.puskazo);
+                   
+                    grid[sor, oszlop] = elem;
+                }
+            }
+
+            this.gridElements = grid;
+        }
+
+        public void GeneralasGameObjectek()
+        {
+            for (int sor = 0; sor < this.gridElements.GetLength(0); sor++)
+            {
+                for (int oszlop = 0; oszlop < this.gridElements.GetLength(1); oszlop++)
+                {
+                    var elem = this.gridElements[sor, oszlop];
                     if (elem.tipus == "ures")
                     {
                         GameObject instance = GameObject.Instantiate(Resources.Load("Padlo", typeof(GameObject))) as GameObject;
@@ -107,24 +129,12 @@ namespace ECASimulator.Terem
                         GameObject instance = GameObject.Instantiate(Resources.Load("Tanulo", typeof(GameObject))) as GameObject;
                         instance.transform.Translate(oszlop, 0, -sor);
                         var tanuloComponent = instance.GetComponent<Tanulo>();
-                       tanuloComponent.GridElem = elem;
+                        tanuloComponent.GridElem = elem;
                         elem.gameObject = instance;
-                        
                     }
-
-                    //---------------------tanulok és puskazok berakasa
-
-                    elemid++;
-                    elem.elemid = elemid;
-                    elem.padid = padid;
-                    elem.karma = karmagenerator(elem.puskazo);
-                    grid[oszlop, sor] = elem;
                 }
             }
-
-            this.gridElements = grid;
         }
-
 
         private int karmagenerator(bool puskazo)
         {

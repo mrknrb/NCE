@@ -32,7 +32,7 @@ namespace ECASimulator.Tanar.ActionParts
             
             mozgasStop();
       
-            ListOfCoordinates = PathFinding.findPath(main.elemekGrid.gridElements, aktualisPozicio(), finishCoordinatabe);
+            ListOfCoordinates = PathFinding.findPath(main.elemekGridClass.gridElements, aktualisPozicio(), finishCoordinatabe);
             finishCoordinata = ListOfCoordinates[ListOfCoordinates.Count - 1];
 
             main.update += MozgasVhovaLoop;
@@ -42,11 +42,9 @@ namespace ECASimulator.Tanar.ActionParts
         {
             var coo = new Coordinates();
             coo.X = (int) Math.Round(main.tanar.tanarObject.transform.position.x);
-            coo.Y = (int) Math.Round(-1 * main.tanar.tanarObject.transform.position.z);
+            coo.Y = (int) Math.Round(- main.tanar.tanarObject.transform.position.z);
             return coo;
         }
-
-
         private void MozgasVhovaLoop()
         {
             if (ListOfCoordinates.Count != 0)
