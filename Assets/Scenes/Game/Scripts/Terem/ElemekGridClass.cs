@@ -27,22 +27,22 @@ namespace ECASimulator.Terem
             int tanuloid = -1;
             var entranceNumbers = oszlopEntranceNumbersGenerator(mentes.oszlop, mentes.duplaPad);
 
-            Elem[,] grid = new Elem[osszessor(mentes), osszesoszlop(mentes)];
+            Elem[,] grid = new Elem[osszesoszlop(mentes), osszessor(mentes)];
             var hanyadiktanulolist = hanyadiktanulo(mentes);
             var puskazok = hanyadiktanulolist.Take(mentes.puskazokszama);
 
             Listkevero.Shuffle(hanyadiktanulolist);
             //------------------------------------------------------------------------------------------------------------------------grid megtöltése
-            for (int sor = 0; sor < grid.GetLength(0); sor++)
-            {
-                for (int oszlop = 0; oszlop < grid.GetLength(1); oszlop++)
-                {
+         for (int sor = 0; sor < grid.GetLength(1); sor++)
+                                     {
+                for (int oszlop = 0; oszlop < grid.GetLength(0); oszlop++)
+                {   
                     var elem = new Elem();
                     elem.tipus = "pad";
                     elem.puskazo = false;
                     elem.tanuloid = 0;
                     //-----------------------------------------------------------------------Padok generálás
-                    if (sor == 0 || sor == 1 || sor == 2 || sor == grid.GetLength(0) - 1) //sor
+                    if (sor == 0 || sor == 1 || sor == 2 || sor == grid.GetLength(1) - 1) //sor
                     {
                         elem.tipus = "ures";
                     }
@@ -50,7 +50,7 @@ namespace ECASimulator.Terem
                     //---------------------------------------
 
 
-                    if (oszlop == 0 || oszlop == grid.GetLength(1) - 1)
+                    if (oszlop == 0 || oszlop == grid.GetLength(0) - 1)
                     {
                         elem.tipus = "ures";
                     }
@@ -96,7 +96,7 @@ namespace ECASimulator.Terem
                     elem.padid = padid;
                     elem.karma = karmagenerator(elem.puskazo);
                    
-                    grid[sor, oszlop] = elem;
+                    grid[oszlop,sor ] = elem;
                 }
             }
 
@@ -104,12 +104,12 @@ namespace ECASimulator.Terem
         }
 
         public void GeneralasGameObjectek()
-        {
-            for (int sor = 0; sor < this.gridElements.GetLength(0); sor++)
+        { for (int oszlop = 0; oszlop < this.gridElements.GetLength(0); oszlop++)
+                         {
+            for (int sor = 0; sor < this.gridElements.GetLength(1); sor++)
             {
-                for (int oszlop = 0; oszlop < this.gridElements.GetLength(1); oszlop++)
-                {
-                    var elem = this.gridElements[sor, oszlop];
+               
+                    var elem = this.gridElements[oszlop,sor ];
                     if (elem.tipus == "ures")
                     {
                         GameObject instance = GameObject.Instantiate(Resources.Load("Padlo", typeof(GameObject))) as GameObject;

@@ -9,7 +9,7 @@ namespace ECASimulator.Elemek
         public Elem GridElem;
             private void Start()
             {
-               Debug.Log(GridElem.elemid); 
+           
             }
 
             private void Update()
