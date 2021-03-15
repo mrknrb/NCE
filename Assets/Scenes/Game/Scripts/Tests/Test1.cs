@@ -1,8 +1,6 @@
 ﻿
 
-using ECASimulator.ECALibrary;
-
-namespace ECASimulator.Tests
+namespace Scenes.Game.Scripts.Tests
 {
     public class Test1
     {

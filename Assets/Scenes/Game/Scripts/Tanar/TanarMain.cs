@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Threading.Tasks;
-using ECASimulator.Structs;
-using ECASimulator.Tanar.ActionParts;
-using UnityEditor;
+﻿using Scenes.Game.Scripts.Tanar.ActionParts;
 using UnityEngine;
 
-namespace ECASimulator.Tanar
+namespace Scenes.Game.Scripts.Tanar
 {
     public class TanarMain
     {

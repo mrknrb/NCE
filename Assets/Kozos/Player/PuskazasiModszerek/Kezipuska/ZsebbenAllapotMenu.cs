@@ -1,7 +1,6 @@
-﻿using DefaultNamespace;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Menu.MenuElemek
+namespace Kozos.Player.PuskazasiModszerek.Kezipuska
 {
     public class Gomb:MonoBehaviour,Iinteractable
     {

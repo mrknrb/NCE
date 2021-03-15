@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using ECASimulator.Structs;
-using ECASimulator.Tanar.Actions;
+using Scenes.Game.Scripts.Tanar.Actions;
 
-namespace ECASimulator.Tanar
+namespace Scenes.Game.Scripts.Tanar
 {
     public class ActionsHandler
     {

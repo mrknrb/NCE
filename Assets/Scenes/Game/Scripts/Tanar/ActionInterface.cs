@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ECASimulator.Tanar
+namespace Scenes.Game.Scripts.Tanar
 {
     public interface ActionInterface
     {

@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Menu
+namespace Scenes.Menu.Scripts
 {
     public class EscapeManager : MonoBehaviour
     {
-       public List<GameObject> elsoAllapotosok;
+        public List<GameObject> elsoAllapotosok;
         public List<GameObject> masodikAllapotosok;
-        private bool allapotAktualis=true;
+        private bool allapotAktualis = true;
+
         private void Start()
         {
         }
@@ -20,41 +20,47 @@ namespace Menu
             EventSystem.current.IsPointerOverGameObject();
         }
 
-        private void Update()
+        void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (allapotAktualis)
-                {
-                    Cursor.lockState = CursorLockMode.Locked;
-                    foreach (var gameobject in elsoAllapotosok)
-                    {
-                        gameobject.SetActive(false);
-                    }
-                    foreach (var gameobject in masodikAllapotosok)
-                    {
-                        gameobject.SetActive(true);
-                    }
-                    allapotAktualis = false;
-                }
-                else
-                {    Cursor.lockState = CursorLockMode.None;
-                    foreach (var gameobject in elsoAllapotosok)
-                    {
-                        gameobject.SetActive(true);
-                    }
-                    foreach (var gameobject in masodikAllapotosok)
-                    {
-                        gameobject.SetActive(false);
-                    }
-                    allapotAktualis = true;
-                }
-                Debug.Log("Escape key was pressed");
-                
-                
+                modValtas();
             }
-            
         }
-       
+
+
+        public void modValtas()
+        {
+            if (allapotAktualis)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                foreach (var gameobject in elsoAllapotosok)
+                {
+                    gameobject.SetActive(false);
+                }
+
+                foreach (var gameobject in masodikAllapotosok)
+                {
+                    gameobject.SetActive(true);
+                }
+
+                allapotAktualis = false;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+                foreach (var gameobject in elsoAllapotosok)
+                {
+                    gameobject.SetActive(true);
+                }
+
+                foreach (var gameobject in masodikAllapotosok)
+                {
+                    gameobject.SetActive(false);
+                }
+
+                allapotAktualis = true;
+            }
+        }
     }
 }

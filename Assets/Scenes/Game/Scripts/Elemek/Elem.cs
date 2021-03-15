@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ECASimulator.Structs
+namespace Scenes.Game.Scripts.Elemek
 {
     public class Elem
     {
@@ -9,7 +9,7 @@ namespace ECASimulator.Structs
         public int tanuloid;
         
         public string tipus;
-        //
+        
         public int karma;
         public bool puskazo;
 

@@ -1,9 +1,9 @@
 ﻿using System;
-using ECASimulator.Structs;
-using ECASimulator.Tanar.ActionParts;
+using Scenes.Game.Scripts.Structs;
+using Scenes.Game.Scripts.Tanar.ActionParts;
 using Random = UnityEngine.Random;
 
-namespace ECASimulator.Tanar.Actions
+namespace Scenes.Game.Scripts.Tanar.Actions
 {
     public class JarkalniAction : ActionInterface
 

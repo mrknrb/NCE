@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using ECASimulator.Structs;
-using ECASimulator.Terem;
-using UnityEngine;
+using Scenes.Game.Scripts.Elemek;
+using Scenes.Game.Scripts.Structs;
 
-namespace ECASimulator.ECALibrary
+namespace Scenes.Game.Scripts.ECALibrary
 {
     public static class PathFinding
     {

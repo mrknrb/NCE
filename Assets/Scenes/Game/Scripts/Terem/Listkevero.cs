@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ECASimulator.Terem
+namespace Scenes.Game.Scripts.Terem
 {
     public static class Listkevero
     {

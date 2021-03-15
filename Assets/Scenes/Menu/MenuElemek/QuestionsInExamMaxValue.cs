@@ -1,24 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuestionsInExamMaxValue : MonoBehaviour
+namespace Scenes.Menu.MenuElemek
 {
-    public Slider maxslider;
-
-    public Slider examQuestionsSlider;
-    // Start is called before the first frame update
-    void Start()
+    public class QuestionsInExamMaxValue : MonoBehaviour
     {
-        maxslider.onValueChanged.AddListener (delegate {ValueChanged ();});
-        ValueChanged();
-    }
+        public Slider maxslider;
 
-    void ValueChanged()
-    {
+        public Slider examQuestionsSlider;
+        // Start is called before the first frame update
+        void Start()
+        {
+            maxslider.onValueChanged.AddListener (delegate {ValueChanged ();});
+            ValueChanged();
+        }
 
-        examQuestionsSlider.maxValue = maxslider.value;
+        void ValueChanged()
+        {
 
+            examQuestionsSlider.maxValue = maxslider.value;
+
+        }
     }
 }

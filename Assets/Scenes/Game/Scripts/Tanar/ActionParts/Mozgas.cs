@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using ECASimulator.ECALibrary;
-using ECASimulator.Structs;
+using Scenes.Game.Scripts.ECALibrary;
+using Scenes.Game.Scripts.Structs;
 using UnityEngine;
 
-namespace ECASimulator.Tanar.ActionParts
+namespace Scenes.Game.Scripts.Tanar.ActionParts
 {
     public class Mozgas
     {

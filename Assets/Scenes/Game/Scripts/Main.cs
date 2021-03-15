@@ -1,14 +1,12 @@
-﻿using System;
-using ECASimulator.ECALibrary;
-using ECASimulator.Structs;
-using ECASimulator.Terem;
+﻿using Scenes.Game.Scripts.Structs;
+using Scenes.Game.Scripts.Tanar;
+using Scenes.Game.Scripts.Terem;
+using Scenes.Game.Scripts.UI;
 using UnityEngine;
-using Action = System.Action;
-using ECASimulator.Tanar;
-using ECASimulator.UI;
 using UnityEngine.Serialization;
+using Action = System.Action;
 
-namespace ECASimulator
+namespace Scenes.Game.Scripts
 {
     public class Main : MonoBehaviour
     {
@@ -22,26 +20,7 @@ namespace ECASimulator
 
         void Start()
         {
-            /* elemekgrid1
-            mentes.sor = 10;
-            mentes.oszlop = 8;
-            mentes.egyhelykihagy = false;
-            mentes.tanulokszama = 30;
-            mentes.puskazokszama = 10;
-            mentes.randomulesrend = true;
-            mentes.entrance = 3;
-            
-            mentes.hatul = true;
-            mentes.oldalt = true;
-
-            //Tanar tulajdonsagok
-            mentes.alertness = 7;
-            mentes.sitting = 7;
-            mentes.walking = 7;
-            mentes.agressiveness = 7;
-            mentes.eyes = 7;
-            mentes.height = 7;
-            */
+           
             //elemekgrid2
             mentes.sor = 10;
             mentes.oszlop = 6;
@@ -50,15 +29,12 @@ namespace ECASimulator
             mentes.puskazokszama = 10;
             mentes.randomulesrend = true;
             mentes.duplaPad = true;
-            mentes.playerPosition.X = 2;
-            mentes.playerPosition.Y = 3;
+            mentes.playerPadid = 10;
             //Tanar tulajdonsagok
             mentes.alertness = 3;
-            mentes.sitting = 3;
             mentes.walking = 3;
             mentes.agressiveness = 3;
             mentes.eyes = 3;
-            mentes.height = 3;
             
 
             elemekGridClass = new ElemekGridClass(this.mentes);

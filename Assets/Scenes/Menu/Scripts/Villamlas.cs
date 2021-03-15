@@ -1,53 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Villamlas : MonoBehaviour
+namespace Scenes.Menu.Scripts
 {
-    public Material ablak;
-
-    public Material ablakVillam;
-    private MeshRenderer ablakMeshRenderer;
-
-    // Start is called before the first frame update
-    void Start()
+    public class Villamlas : MonoBehaviour
     {
-        ablakMeshRenderer = gameObject.GetComponent<MeshRenderer>();
-    }
+        public Material ablak;
 
-    float elapsed = 0f;
-    float kovetkezoIdo = 5f;
-    // Update is called once per frame
-    void Update()
-    {
-        elapsed += Time.deltaTime;
-        if (elapsed >=  kovetkezoIdo)
+        public Material ablakVillam;
+        private MeshRenderer ablakMeshRenderer;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            elapsed = elapsed % 1f;
-            Villam();
-            kovetkezoIdo = Random.Range(10f, 40f);
+            ablakMeshRenderer = gameObject.GetComponent<MeshRenderer>();
         }
-    }
 
-    void Villam()
-    {
+        float elapsed = 0f;
+        float kovetkezoIdo = 5f;
+        // Update is called once per frame
+        void Update()
+        {
+            elapsed += Time.deltaTime;
+            if (elapsed >=  kovetkezoIdo)
+            {
+                elapsed = elapsed % 1f;
+                Villam();
+                kovetkezoIdo = Random.Range(10f, 40f);
+            }
+        }
+
+        void Villam()
+        {
         
-        ablakMeshRenderer.material = ablakVillam;
-       Invoke("VillamVege", 0.1f);
+            ablakMeshRenderer.material = ablakVillam;
+            Invoke("VillamVege", 0.1f);
 
-    }
-    void VillamVege()
-    {
-        ablakMeshRenderer.material = ablak;
-        Invoke("Villam2", 0.1f);
-    }
-    void Villam2()
-    {
-        ablakMeshRenderer.material = ablakVillam;
-        Invoke("VillamVege2", 0.1f);
-    }
-    void VillamVege2()
-    {
-        ablakMeshRenderer.material = ablak;
+        }
+        void VillamVege()
+        {
+            ablakMeshRenderer.material = ablak;
+            Invoke("Villam2", 0.1f);
+        }
+        void Villam2()
+        {
+            ablakMeshRenderer.material = ablakVillam;
+            Invoke("VillamVege2", 0.1f);
+        }
+        void VillamVege2()
+        {
+            ablakMeshRenderer.material = ablak;
+        }
     }
 }

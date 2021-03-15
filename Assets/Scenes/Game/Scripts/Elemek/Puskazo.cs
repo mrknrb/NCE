@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ECASimulator.Elemek
+namespace Scenes.Game.Scripts.Elemek
 {
     public class Puskazo:MonoBehaviour
     {

@@ -1,4 +1,4 @@
-﻿namespace ECASimulator.Structs
+﻿namespace Scenes.Game.Scripts.Structs
 {
     public class Action
     {

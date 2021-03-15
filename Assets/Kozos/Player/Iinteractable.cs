@@ -1,4 +1,4 @@
-﻿namespace DefaultNamespace
+﻿namespace Kozos.Player
 {
     public interface Iinteractable
     {

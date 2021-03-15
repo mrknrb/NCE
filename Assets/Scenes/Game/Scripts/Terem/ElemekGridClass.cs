@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ECASimulator.Elemek;
-using ECASimulator.Structs;
-using ICSharpCode.NRefactory.PrettyPrinter;
+using Scenes.Game.Scripts.Elemek;
+using Scenes.Game.Scripts.Structs;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace ECASimulator.Terem
+namespace Scenes.Game.Scripts.Terem
 {
     public class ElemekGridClass
     {
@@ -16,27 +15,28 @@ namespace ECASimulator.Terem
         public ElemekGridClass(Mentes mentes)
         {
             this.mentes = mentes;
+
+
             generalas();
         }
 
         private void generalas()
         {
-            var mentes = this.mentes;
             int elemid = -1;
             int padid = -1;
             int tanuloid = -1;
             var entranceNumbers = oszlopEntranceNumbersGenerator(mentes.oszlop, mentes.duplaPad);
 
             Elem[,] grid = new Elem[osszesoszlop(mentes), osszessor(mentes)];
-            var hanyadiktanulolist = hanyadiktanulo(mentes);
+            var hanyadiktanulolist = hanyadiktanulo();
             var puskazok = hanyadiktanulolist.Take(mentes.puskazokszama);
 
             Listkevero.Shuffle(hanyadiktanulolist);
             //------------------------------------------------------------------------------------------------------------------------grid megtöltése
-         for (int sor = 0; sor < grid.GetLength(1); sor++)
-                                     {
+            for (int sor = 0; sor < grid.GetLength(1); sor++)
+            {
                 for (int oszlop = 0; oszlop < grid.GetLength(0); oszlop++)
-                {   
+                {
                     var elem = new Elem();
                     elem.tipus = "pad";
                     elem.puskazo = false;
@@ -95,8 +95,8 @@ namespace ECASimulator.Terem
                     elem.elemid = elemid;
                     elem.padid = padid;
                     elem.karma = karmagenerator(elem.puskazo);
-                   
-                    grid[oszlop,sor ] = elem;
+
+                    grid[oszlop, sor] = elem;
                 }
             }
 
@@ -104,12 +104,12 @@ namespace ECASimulator.Terem
         }
 
         public void GeneralasGameObjectek()
-        { for (int oszlop = 0; oszlop < this.gridElements.GetLength(0); oszlop++)
-                         {
-            for (int sor = 0; sor < this.gridElements.GetLength(1); sor++)
+        {
+            for (int oszlop = 0; oszlop < this.gridElements.GetLength(0); oszlop++)
             {
-               
-                    var elem = this.gridElements[oszlop,sor ];
+                for (int sor = 0; sor < this.gridElements.GetLength(1); sor++)
+                {
+                    var elem = this.gridElements[oszlop, sor];
                     if (elem.tipus == "ures")
                     {
                         GameObject instance = GameObject.Instantiate(Resources.Load("Padlo", typeof(GameObject))) as GameObject;
@@ -151,7 +151,7 @@ namespace ECASimulator.Terem
             return karma;
         }
 
-        private List<int> hanyadiktanulo(Mentes mentes)
+        private List<int> hanyadiktanulo()
         {
             //visszadob annyi padid-t, amennyi tanulo van a mentesi beallitasok szerint
             int osszeshely = mentes.sor * mentes.oszlop;
@@ -159,43 +159,24 @@ namespace ECASimulator.Terem
 
             var padidlistacheater = new List<int>();
 
+       
             void random()
             {
-                for (int i = 0; i < mentes.tanulokszama; i++)
+                if (mentes.egyhelykihagy)
                 {
-                    int padid = 0;
-                    random2();
-
-                    void random2()
-                    {
-                        if (mentes.egyhelykihagy)
-                        {
-                            padid = Random.Range(0, osszeshely / 2) * 2;
-                        }
-                        else
-                        {
-                            padid = Random.Range(0, osszeshely);
-                        }
-
-
-                        var marvan = false;
-                        foreach (var ia in padidlistatanulo)
-                        {
-                            if (padid == ia)
-                            {
-                                marvan = true;
-                            }
-                        }
-
-                        if (marvan)
-                        {
-                            random2();
-                        }
-                    }
-
-                    // print(padid);
-                    padidlistatanulo.Add(padid);
+                   var fele=  Kozos.RandomUniqueNumberGenerator.GenerateRandom(mentes.tanulokszama, 0, osszeshely / 2);
+                   foreach (var padid in fele)
+                   {
+                       padidlistatanulo.Add(padid*2);  
+                   }
                 }
+                else
+                {
+                    padidlistatanulo=  Kozos.RandomUniqueNumberGenerator.GenerateRandom(mentes.tanulokszama, 0, osszeshely);
+                }
+
+               
+         
             }
 
             void elol()

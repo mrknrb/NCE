@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 
-namespace ECASimulator.UI
+namespace Scenes.Game.Scripts.UI
 {
  
     public class MainMenu
