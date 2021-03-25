@@ -1,4 +1,5 @@
-﻿using Scenes.Game.Scripts.Structs;
+﻿using Scenes.Game.Scripts.Elemek;
+using Scenes.Game.Scripts.Structs;
 using Scenes.Game.Scripts.Tanar;
 using Scenes.Game.Scripts.Terem;
 using Scenes.Game.Scripts.UI;
@@ -12,7 +13,7 @@ namespace Scenes.Game.Scripts
     {
      
         public MainMenu mainMenu;
-        [FormerlySerializedAs("elemekGrid")] public ElemekGridClass elemekGridClass;
+        public Elem[,] elemekGrid;
         public TanarMain tanar;
         public event Action update;
         public Mentes mentes;
@@ -37,9 +38,9 @@ namespace Scenes.Game.Scripts
             mentes.eyes = 3;
             
 
-            elemekGridClass = new ElemekGridClass(this.mentes);
-            elemekGridClass.GeneralasGameObjectek();
-            
+            elemekGrid =  ElemekGridGenerator.generalas(this.mentes);
+        
+            elemekGrid= ElemekGridGenerator.GeneralasGameObjectek(elemekGrid);
             tanar = new TanarMain(this);
             tanar.start();
         }

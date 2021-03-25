@@ -32,7 +32,7 @@ namespace Scenes.Game.Scripts.Tanar.ActionParts
             
             mozgasStop();
       
-            ListOfCoordinates = PathFinding.findPath(main.elemekGridClass.gridElements, aktualisPozicio(), finishCoordinatabe);
+            ListOfCoordinates = PathFinding.findPath(main.elemekGrid, aktualisPozicio(), finishCoordinatabe);
             finishCoordinata = ListOfCoordinates[ListOfCoordinates.Count - 1];
 
             main.update += MozgasVhovaLoop;

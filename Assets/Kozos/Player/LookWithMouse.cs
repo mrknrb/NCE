@@ -8,7 +8,7 @@ namespace Kozos.Player
 {
     public class LookWithMouse : MonoBehaviour
     {
-        public float mouseSensitivity = 2f;
+        public float mouseSensitivity = 1.5f;
         float xRotation = 0f;
         float yRotation = 0f;
 
@@ -18,7 +18,7 @@ namespace Kozos.Player
         }
 
 
-        void FixedUpdate()
+        void Update()
         {
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;

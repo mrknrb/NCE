@@ -21,8 +21,8 @@ namespace Scenes.Game.Scripts.Tanar.Actions
             var mozgas = new Mozgas(main);
             // mozgas.mozgasVege += mozgasVege;
             var coordinates = new Coordinates();
-            coordinates.Y = Random.Range(0, main.elemekGridClass.gridElements.GetLength(0));
-            coordinates.X = Random.Range(0, main.elemekGridClass.gridElements.GetLength(1));
+            coordinates.Y = Random.Range(0, main.elemekGrid.GetLength(0));
+            coordinates.X = Random.Range(0, main.elemekGrid.GetLength(1));
             
          
             mozgas.ujCelpont(coordinates);

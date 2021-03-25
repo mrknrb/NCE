@@ -2,7 +2,7 @@
 
 namespace Scenes.Game.Scripts.Elemek
 {
-    public class Puskazo:MonoBehaviour
+    public class Puskazo:Elem
     {
         private void Start()
         {

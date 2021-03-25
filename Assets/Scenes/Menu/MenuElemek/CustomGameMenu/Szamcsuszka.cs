@@ -23,7 +23,7 @@ namespace Scenes.Menu.MenuElemek
             csuszkaValue.text = elozoValue.ToString();
                     
         }
-    
+   
         void Update()
         {
       

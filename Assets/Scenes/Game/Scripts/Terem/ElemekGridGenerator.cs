@@ -7,20 +7,13 @@ using Random = UnityEngine.Random;
 
 namespace Scenes.Game.Scripts.Terem
 {
-    public class ElemekGridClass
+    public static class ElemekGridGenerator
     {
-        private Mentes mentes;
-        public Elem[,] gridElements;
+      
 
-        public ElemekGridClass(Mentes mentes)
-        {
-            this.mentes = mentes;
+       
 
-
-            generalas();
-        }
-
-        private void generalas()
+        public static Elem[,] generalas(Mentes mentes)
         {
             int elemid = -1;
             int padid = -1;
@@ -28,7 +21,8 @@ namespace Scenes.Game.Scripts.Terem
             var entranceNumbers = oszlopEntranceNumbersGenerator(mentes.oszlop, mentes.duplaPad);
 
             Elem[,] grid = new Elem[osszesoszlop(mentes), osszessor(mentes)];
-            var hanyadiktanulolist = hanyadiktanulo();
+            
+            var hanyadiktanulolist = hanyadiktanulo(mentes);
             var puskazok = hanyadiktanulolist.Take(mentes.puskazokszama);
 
             Listkevero.Shuffle(hanyadiktanulolist);
@@ -100,16 +94,17 @@ namespace Scenes.Game.Scripts.Terem
                 }
             }
 
-            this.gridElements = grid;
+           return grid;
         }
 
-        public void GeneralasGameObjectek()
+        public static Elem[,] GeneralasGameObjectek(Elem[,] gridElements)
         {
-            for (int oszlop = 0; oszlop < this.gridElements.GetLength(0); oszlop++)
+            var gridElements2 = gridElements;
+            for (int oszlop = 0; oszlop < gridElements2.GetLength(0); oszlop++)
             {
-                for (int sor = 0; sor < this.gridElements.GetLength(1); sor++)
+                for (int sor = 0; sor < gridElements2.GetLength(1); sor++)
                 {
-                    var elem = this.gridElements[oszlop, sor];
+                    var elem = gridElements2[oszlop, sor];
                     if (elem.tipus == "ures")
                     {
                         GameObject instance = GameObject.Instantiate(Resources.Load("Padlo", typeof(GameObject))) as GameObject;
@@ -133,10 +128,13 @@ namespace Scenes.Game.Scripts.Terem
                         elem.gameObject = instance;
                     }
                 }
+                
             }
+
+            return gridElements2;
         }
 
-        private int karmagenerator(bool puskazo)
+        private static int karmagenerator(bool puskazo)
         {
             int karma = 0;
             if (puskazo)
@@ -151,7 +149,7 @@ namespace Scenes.Game.Scripts.Terem
             return karma;
         }
 
-        private List<int> hanyadiktanulo()
+        private static List<int> hanyadiktanulo(Mentes mentes)
         {
             //visszadob annyi padid-t, amennyi tanulo van a mentesi beallitasok szerint
             int osszeshely = mentes.sor * mentes.oszlop;
@@ -167,7 +165,8 @@ namespace Scenes.Game.Scripts.Terem
                    var fele=  Kozos.RandomUniqueNumberGenerator.GenerateRandom(mentes.tanulokszama, 0, osszeshely / 2);
                    foreach (var padid in fele)
                    {
-                       padidlistatanulo.Add(padid*2);  
+                       padidlistatanulo.Add(padid*2);
+             
                    }
                 }
                 else
@@ -209,7 +208,7 @@ namespace Scenes.Game.Scripts.Terem
             return padidlistatanulo;
         }
 
-        private int[] oszlopEntranceNumbersGenerator(int oszlopszam, bool duplapadok)
+        private static int[] oszlopEntranceNumbersGenerator(int oszlopszam, bool duplapadok)
         {
             if (oszlopszam == 2)
             {
@@ -272,7 +271,7 @@ namespace Scenes.Game.Scripts.Terem
         }
 
 
-        private int osszesoszlop(Mentes mentes)
+        private static int osszesoszlop(Mentes mentes)
         {
             int EntranceSzam = 0;
             if (mentes.duplaPad)
@@ -289,7 +288,7 @@ namespace Scenes.Game.Scripts.Terem
             return osszesoszlop;
         }
 
-        private int osszessor(Mentes mentes)
+        private static int osszessor(Mentes mentes)
         {
             var osszessor = mentes.sor + 3 + 1;
             return osszessor;

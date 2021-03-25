@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 namespace Scenes.Menu.Scripts
@@ -6,43 +7,64 @@ namespace Scenes.Menu.Scripts
     public class SelectionManager : MonoBehaviour
     {
         [SerializeField] private string selectableTag = "Selectable";
-        [SerializeField] private Camera camera;
-        private Transform _selection;
+        [SerializeField] private Camera cameraMain;
+        private Transform selection;
         private GameObject instance;
-  
+        public Image Kezelo;
+        private KezeloScript kezeloScript;
+        private bool mouseButtonHold;
+        public Image Nyil;
+
+
         private void Start()
         {
-        
+            kezeloScript = Kezelo.GetComponent<KezeloScript>();
         }
-
         private void Update()
         {
-      
-
-            var ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-          
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            var ray = cameraMain.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+            if (Physics.Raycast(ray, out var hit))
             {
-            
-                var selection = hit.transform;
-          
-                if (selection.CompareTag(selectableTag))
+                if (hit.transform.CompareTag(selectableTag))
                 {
-                    if (Input.GetMouseButton(0))
+                    selection = hit.transform;
+                    if (!Kezelo.enabled)
                     {
-                        selection.gameObject.GetComponent<Button>().onClick.Invoke();
+                        Kezelo.enabled = true;
                     }
-
-                    instance.transform.localScale = hit.collider.bounds.size*1.5f;
-                
-                    instance?.SetActive(true);
-                    instance.transform.position = hit.collider.bounds.center;
-              
-                    _selection = selection;
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        mouseButtonHold = true;
+                    }
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        mouseButtonHold = false;
+                        kezeloScript.KezeloKepPiros();
+                    }
+                    Kezelo.transform.position = cameraMain.WorldToScreenPoint(selection.position);
+                }
+                else
+                {
+                    if (Kezelo.enabled)
+                    {
+                        Kezelo.enabled = false;
+                    }
+                    kezeloScript.KezeloKepFeher();
+                    if (mouseButtonHold)
+                    {
+                       NyilScript.Mutatas(Nyil,cameraMain.WorldToScreenPoint(selection.position), new Vector3(Screen.width/2,Screen.height/2,0) );
+                       Nyil.enabled = true;
+                    }
+                    else
+                    {
+                        Nyil.enabled = false;
+                    }
                 }
             }
-        
+            if (Input.GetMouseButtonUp(0))
+            {
+                mouseButtonHold = false;
+            }
         }
     }
 }
