@@ -35,10 +35,9 @@ namespace Resources.Kozos.Player.Rejtekhelyek
             rejtekHelyName = rejtekHelyGameObject.transform.name;
             updateCaller.update += RejtekHelyJelMozgas;
             lookWithMouse = lookWithMouse2;
-            lookWithMouse.ZoomModeOn += RejtekhelyZoomModeOn;
-            lookWithMouse.ZoomModeOff += RejtekhelyZoomModeOff;
         }
 
+       
         public void PuskaBetoltes(PuskaKozos puska2)
         {
             puska = puska2;
@@ -47,6 +46,7 @@ namespace Resources.Kozos.Player.Rejtekhelyek
 
             rejtekHelyJelLogo.sprite = puska.puskaLogo;
             rejtekHelyJelHatter.sprite = rejtekHelyJelGameObject.GetComponent<RejtekHelyJelSpritesHivok>().KekHatter;
+     
         }
 
         public PuskaKozos PuskaKivetel()
@@ -67,16 +67,12 @@ namespace Resources.Kozos.Player.Rejtekhelyek
             rejtekHelyJelHatter.sprite = rejtekHelyJelGameObject.GetComponent<RejtekHelyJelSpritesHivok>().KekHatter;
         }
 
-        void RejtekhelyZoomModeOn()
-        {
-            rejtekHelyGameObject.SetActive(false);
-            rejtekHelyJelGameObject.SetActive(false);
-        }
+    
 
-        void RejtekhelyZoomModeOff()
+      public  void RejtekhelyAktival(bool aktival)
         {
-            rejtekHelyGameObject.SetActive(true);
-            rejtekHelyJelGameObject.SetActive(true);
+            rejtekHelyGameObject.SetActive(aktival);
+            rejtekHelyJelGameObject.SetActive(aktival);
         }
 
         void RejtekHelyJelMozgas()

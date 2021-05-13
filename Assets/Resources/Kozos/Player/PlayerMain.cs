@@ -1,4 +1,5 @@
-﻿using Resources.Game.DataClassok;
+﻿using System;
+using Resources.Game.DataClassok;
 using Resources.Kozos.Player.Puskazas;
 using Resources.Kozos.Player.Rejtekhelyek;
 using Resources.Kozos.Player.Selection;
@@ -14,26 +15,26 @@ namespace Resources.Kozos.Player
         private RejtekhelyManager rejtekhelyManager;
         private PuskazasManager puskazasManager;
         private Mentes mentes;
-
         public PlayerMain()
         {
             playerGameObject = GameObject.Instantiate(UnityEngine.Resources.Load("Kozos/Player/Player") as GameObject);
             playerHivok = playerGameObject.GetComponent<PlayerHivok>();
             lookWithMouse = new LookWithMouse(playerHivok.CameraPlayer, playerHivok.Nyak);
             rejtekhelyManager = new RejtekhelyManager(playerHivok, lookWithMouse);
-            puskazasManager = new PuskazasManager( playerHivok);
-
+            puskazasManager = new PuskazasManager(playerHivok,lookWithMouse);
+            
+           
         }
+   
 
+       
+        
         public void MentesBetoltes(Mentes mentes2)
         {
-           
             mentes = mentes2;
             puskazasManager.PuskakBetoltese(mentes);
             rejtekhelyManager.PuskakBetoltese(puskazasManager.puskaList);
-
-
         }
-
+        
     }
 }

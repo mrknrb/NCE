@@ -7,38 +7,68 @@ namespace Resources.Kozos.Player.Rejtekhelyek
 {
     public class RejtekhelyekInput
     {
-        private List<GameObject> rejtekHelyGameObject;
         private UpdateCaller updateCaller;
         private Camera cameraMain;
-        private GameObject instance;
-
-
-        public RejtekhelyekInput(PlayerHivok playerHiv)
-        {
-            cameraMain = playerHiv.CameraPlayer;
-            updateCaller = GameObject.Find("UpdateCallerGameObject").GetComponent<UpdateCaller>();
-            rejtekHelyGameObject = playerHiv.RejtekhelyHivok;
-            // updateCaller.update += raycasting;
-            updateCaller.update += GeneratorLoop;
-        }
-
-
         private Transform selection;
         private Transform grabstartselection;
         private bool mouseover;
+        private bool mousedown;
 
-        void GeneratorLoop()
+
+        public event Action<string> rejtekhelyMouseOverEvent;
+        public event Action rejtekhelyMouseLeaveEvent;
+        public event Action<string> rejtekhelyKlikkEvent;
+        public event Action<string> rejtekhelyZoomEvent;
+        public event Action<string> rejtekhelyZoomCancelEvent;
+        public event Action<string> rejtekhelyGrabStartEvent;
+        public event Action rejtekhelyGrabCancelEvent;
+        public event Action<string, string> rejtekhelyGrabToAnotherJelzesEvent;
+        public event Action<string, string> rejtekhelyGrabToAnotherEvent;
+
+        public RejtekhelyekInput(PlayerHivok playerHiv,LookWithMouse lookWithMouse)
         {
-            MouseButtonEventGenerator();
-            MouseOverLeaveEventGenerator();
+            cameraMain = playerHiv.CameraPlayer;
+            updateCaller = GameObject.Find("UpdateCallerGameObject").GetComponent<UpdateCaller>();
+            lookWithMouse.mouseButtonDown +=  MouseButtonEventGenerator;
+           // lookWithMouse.raycastHitEventsUpdate += MouseOverLeaveEventsUpdateGenerator;
+            lookWithMouse.mouseOver += MouseOver;
         }
-        
-        
-        public void MouseOverLeaveEventGenerator()
+
+        public void MouseOver(bool mouseover2,RaycastHit hit)
         {
-            var ray = cameraMain.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-            if (Physics.Raycast(ray, out var hit))
+            if (mouseover2)
             {
+             
+                if (hit.transform.CompareTag("Selectable"))
+                {
+                   
+                        selection = hit.transform;
+                        mouseover = true;
+                        EventTree();
+                   
+                }
+                else
+                {
+                   
+                        mouseover = false;
+                        EventTree();
+                   
+                }
+            }
+            else
+            {
+               
+                    mouseover = false;
+                    EventTree();
+                
+            }
+           
+        }
+        public void MouseOverLeaveEventsUpdateGenerator(bool sikeres,RaycastHit hit)
+        {
+            if (sikeres)
+            {
+             
                 if (hit.transform.CompareTag("Selectable"))
                 {
                     if (!mouseover)
@@ -56,7 +86,6 @@ namespace Resources.Kozos.Player.Rejtekhelyek
                         EventTree();
                     }
                 }
-                
             }
             else
             {
@@ -68,21 +97,12 @@ namespace Resources.Kozos.Player.Rejtekhelyek
             }
         }
 
-        private bool mousedown;
 
-        void MouseButtonEventGenerator()
+        void MouseButtonEventGenerator(bool mousedown2)
         {
-            if (mousedown && Input.GetMouseButtonUp(0))
-            {
-                mousedown = false;
-                EventTree();
-            }
-
-            if (!mousedown && Input.GetMouseButtonDown(0))
-            {
-                mousedown = true;
-                EventTree();
-            }
+            mousedown = mousedown2;
+            EventTree();
+           
         }
 
 
@@ -90,6 +110,7 @@ namespace Resources.Kozos.Player.Rejtekhelyek
 
         void EventTree()
         {
+            
             if (rejtekHelystates == RejtekHelyStates.semmi)
             {
                 if (mouseover)
@@ -119,6 +140,7 @@ namespace Resources.Kozos.Player.Rejtekhelyek
                 }
                 else if (!mouseover && mousedown)
                 {
+                   
                     rejtekhelyGrabStartEvent?.Invoke(selection.name);
                     grabstartselection = selection;
                     rejtekHelystates = RejtekHelyStates.grabbing;
@@ -130,6 +152,7 @@ namespace Resources.Kozos.Player.Rejtekhelyek
                 {
                     rejtekhelyGrabCancelEvent?.Invoke();
                     rejtekHelystates = RejtekHelyStates.semmi;
+                    grabstartselection = null;
                 }
                 else if (mouseover && mousedown)
                 {
@@ -139,12 +162,14 @@ namespace Resources.Kozos.Player.Rejtekhelyek
                         rejtekHelystates = RejtekHelyStates.grabmenu;
                     }
                 }
-            }else if (rejtekHelystates == RejtekHelyStates.grabmenu)
+            }
+            else if (rejtekHelystates == RejtekHelyStates.grabmenu)
             {
                 if (mouseover && !mousedown)
                 {
                     rejtekhelyGrabToAnotherEvent?.Invoke(grabstartselection.name, selection.name);
-                    rejtekHelystates = RejtekHelyStates.semmi;
+                    rejtekHelystates = RejtekHelyStates.normalmouseover;
+                    grabstartselection = null;
                 }
                 else if (!mouseover && mousedown)
                 {
@@ -154,82 +179,12 @@ namespace Resources.Kozos.Player.Rejtekhelyek
                     }
                 }
             }
-        }
-
-
-        private bool mouseButtonHold;
-        private string mouseButtonDownRejtekHely;
-        public event Action<string> rejtekhelyMouseOverEvent;
-        public event Action rejtekhelyMouseLeaveEvent;
-        public event Action<string> rejtekhelyKlikkEvent;
-        public event Action<string> rejtekhelyZoomEvent;
-        public event Action<string> rejtekhelyZoomCancelEvent;
-        public event Action<string> rejtekhelyGrabStartEvent;
-        public event Action rejtekhelyGrabCancelEvent;
-        public event Action<string, string> rejtekhelyGrabToAnotherJelzesEvent;
-        public event Action<string, string> rejtekhelyGrabToAnotherEvent;
-        private bool grabbing;
-
-
-        void raycasting()
-        {
-            var ray = cameraMain.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-            if (Physics.Raycast(ray, out var hit))
-            {
-                if (hit.transform.CompareTag("Selectable"))
-                {
-                    if (mouseButtonDownRejtekHely != hit.transform.name)
-                    {
-                        rejtekhelyMouseLeaveEvent?.Invoke();
-                    }
-
-                    if (!mouseover)
-                    {
-                        mouseover = true;
-                        rejtekhelyMouseOverEvent?.Invoke(hit.transform.name);
-                    }
-
-
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        mouseButtonHold = true;
-                        mouseButtonDownRejtekHely = hit.transform.name;
-                    }
-
-                    if (Input.GetMouseButtonUp(0))
-                    {
-                        mouseButtonHold = false;
-                        if (hit.transform.name == mouseButtonDownRejtekHely)
-                        {
-                            rejtekhelyKlikkEvent?.Invoke(hit.transform.name);
-                        }
-                        else
-                        {
-                            rejtekhelyGrabToAnotherEvent?.Invoke(mouseButtonDownRejtekHely, hit.transform.name);
-                        }
-                    }
-                }
-                else
-                {
-                    if (!grabbing)
-                    {
-                        rejtekhelyMouseLeaveEvent?.Invoke();
-                        if (mouseButtonHold)
-                        {
-                            rejtekhelyGrabStartEvent?.Invoke(mouseButtonDownRejtekHely);
-                        }
-                        else
-                        {
-                            rejtekhelyGrabCancelEvent?.Invoke();
-                        }
-                    }
-                }
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                mouseButtonHold = false;
-            }
+            /*
+            Debug.Log("---------------------------------------");
+            Debug.Log("rejtekHelystates"+rejtekHelystates);
+            Debug.Log("mouseover"+mouseover);
+            Debug.Log("mousedown"+mousedown);
+            */
         }
     }
 }
