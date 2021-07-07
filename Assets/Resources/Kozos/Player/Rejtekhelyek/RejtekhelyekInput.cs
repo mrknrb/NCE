@@ -9,91 +9,48 @@ namespace Resources.Kozos.Player.Rejtekhelyek
     {
         private UpdateCaller updateCaller;
         private Camera cameraMain;
-        private Transform selection;
-        private Transform grabstartselection;
+        private RejtekhelyManager rejtekhelyManager;
+       
+        private Transform mouseOverSelection;
+        private Transform grabStartSelection;
+        private Transform grabFinishSelection;
         private bool mouseover;
         private bool mousedown;
+        private string KeyDown;
 
+        
 
-        public event Action<string> rejtekhelyMouseOverEvent;
-        public event Action rejtekhelyMouseLeaveEvent;
-        public event Action<string> rejtekhelyKlikkEvent;
-        public event Action<string> rejtekhelyZoomEvent;
-        public event Action<string> rejtekhelyZoomCancelEvent;
-        public event Action<string> rejtekhelyGrabStartEvent;
-        public event Action rejtekhelyGrabCancelEvent;
-        public event Action<string, string> rejtekhelyGrabToAnotherJelzesEvent;
-        public event Action<string, string> rejtekhelyGrabToAnotherEvent;
-
-        public RejtekhelyekInput(PlayerHivok playerHiv,LookWithMouse lookWithMouse)
+        public RejtekhelyekInput(PlayerHivok playerHiv, LookWithMouse lookWithMouse,RejtekhelyManager rejtekhelyManager2)
         {
+            rejtekhelyManager = rejtekhelyManager2;
             cameraMain = playerHiv.CameraPlayer;
             updateCaller = GameObject.Find("UpdateCallerGameObject").GetComponent<UpdateCaller>();
-            lookWithMouse.mouseButtonDown +=  MouseButtonEventGenerator;
-           // lookWithMouse.raycastHitEventsUpdate += MouseOverLeaveEventsUpdateGenerator;
+            lookWithMouse.mouseButtonDown += MouseButtonEventGenerator;
             lookWithMouse.mouseOver += MouseOver;
+            lookWithMouse.keyPressed += KeyEventGenerator;
+            
         }
 
-        public void MouseOver(bool mouseover2,RaycastHit hit)
+        public void MouseOver(bool mouseover2, RaycastHit hit)
         {
             if (mouseover2)
             {
-             
                 if (hit.transform.CompareTag("Selectable"))
                 {
-                   
-                        selection = hit.transform;
-                        mouseover = true;
-                        EventTree();
-                   
-                }
-                else
-                {
-                   
-                        mouseover = false;
-                        EventTree();
-                   
-                }
-            }
-            else
-            {
-               
-                    mouseover = false;
+                    mouseOverSelection = hit.transform;
+                    mouseover = true;
                     EventTree();
-                
-            }
-           
-        }
-        public void MouseOverLeaveEventsUpdateGenerator(bool sikeres,RaycastHit hit)
-        {
-            if (sikeres)
-            {
-             
-                if (hit.transform.CompareTag("Selectable"))
-                {
-                    if (!mouseover)
-                    {
-                        selection = hit.transform;
-                        mouseover = true;
-                        EventTree();
-                    }
                 }
                 else
-                {
-                    if (mouseover)
-                    {
-                        mouseover = false;
-                        EventTree();
-                    }
-                }
-            }
-            else
-            {
-                if (mouseover)
                 {
                     mouseover = false;
                     EventTree();
                 }
+            }
+            else
+            {
+                mouseover = false;
+                EventTree();
             }
         }
 
@@ -102,32 +59,40 @@ namespace Resources.Kozos.Player.Rejtekhelyek
         {
             mousedown = mousedown2;
             EventTree();
-           
         }
-
+        void KeyEventGenerator(string Key)
+        {
+           
+            KeyDown = Key;
+            EventTree();
+        }
 
         private RejtekHelyStates rejtekHelystates;
 
         void EventTree()
         {
-            
             if (rejtekHelystates == RejtekHelyStates.semmi)
             {
+                grabFinishSelection = null;
+                grabStartSelection = null;
+                rejtekhelyManager.zoomModeBekapcsBlock = false;
                 if (mouseover)
                 {
                     rejtekHelystates = RejtekHelyStates.normalmouseover;
-                    rejtekhelyMouseOverEvent?.Invoke(selection.name);
+                  
+              
                 }
             }
             else if (rejtekHelystates == RejtekHelyStates.normalmouseover)
             {
                 if (!mouseover)
                 {
-                    rejtekhelyMouseLeaveEvent?.Invoke();
+                   
                     rejtekHelystates = RejtekHelyStates.semmi;
                 }
                 else if (mouseover && mousedown)
                 {
+                    
                     rejtekHelystates = RejtekHelyStates.normalmousedown;
                 }
             }
@@ -135,48 +100,85 @@ namespace Resources.Kozos.Player.Rejtekhelyek
             {
                 if (mouseover && !mousedown)
                 {
-                    rejtekhelyKlikkEvent?.Invoke(selection.name);
+                   
+                    rejtekhelyManager.RejtekHelyMegnyit(mouseOverSelection.name);
                     rejtekHelystates = RejtekHelyStates.semmi;
                 }
                 else if (!mouseover && mousedown)
                 {
-                   
-                    rejtekhelyGrabStartEvent?.Invoke(selection.name);
-                    grabstartselection = selection;
-                    rejtekHelystates = RejtekHelyStates.grabbing;
+                    rejtekhelyManager.zoomModeBekapcsBlock = true;
+                    rejtekhelyManager.rejtekhelyGrabbing(mouseOverSelection.name);
+                    grabStartSelection = mouseOverSelection;
+                    rejtekHelystates = RejtekHelyStates.grabbingArrow;
                 }
             }
-            else if (rejtekHelystates == RejtekHelyStates.grabbing)
+            else if (rejtekHelystates == RejtekHelyStates.grabbingArrow)
             {
                 if (!mouseover && !mousedown)
                 {
-                    rejtekhelyGrabCancelEvent?.Invoke();
+                    rejtekhelyManager.rejtekhelyGrabbingCancel();
                     rejtekHelystates = RejtekHelyStates.semmi;
-                    grabstartselection = null;
+                    grabStartSelection = null;
                 }
                 else if (mouseover && mousedown)
                 {
-                    if (grabstartselection != selection)
+                    if (grabStartSelection != mouseOverSelection)
                     {
-                        rejtekhelyGrabToAnotherJelzesEvent?.Invoke(grabstartselection.name, selection.name);
-                        rejtekHelystates = RejtekHelyStates.grabmenu;
+                      
+                        rejtekhelyManager.rejtekhelyGrabToAnotherJelzesStart(grabStartSelection.name, mouseOverSelection.name);
+                        rejtekHelystates = RejtekHelyStates.grabArrowTo;
                     }
                 }
             }
-            else if (rejtekHelystates == RejtekHelyStates.grabmenu)
+            else if (rejtekHelystates == RejtekHelyStates.grabArrowTo)
             {
+                
                 if (mouseover && !mousedown)
                 {
-                    rejtekhelyGrabToAnotherEvent?.Invoke(grabstartselection.name, selection.name);
-                    rejtekHelystates = RejtekHelyStates.normalmouseover;
-                    grabstartselection = null;
+                   
+                    rejtekhelyManager.rejtekhelyGrabToAnotherMenu(true);
+                    rejtekHelystates = RejtekHelyStates.grabbingMenu;
+                    grabFinishSelection = mouseOverSelection;
+                    EventTree();
                 }
                 else if (!mouseover && mousedown)
                 {
-                    if (grabstartselection != selection)
+                    if (grabStartSelection != mouseOverSelection)
                     {
-                        rejtekHelystates = RejtekHelyStates.grabbing;
+                        rejtekHelystates = RejtekHelyStates.grabbingArrow;
+
+                        rejtekhelyManager.rejtekhelyGrabToAnotherJelzesEnd();
+                        rejtekhelyManager.rejtekhelyGrabbing(grabStartSelection.name);
+                        EventTree();
                     }
+                }
+            }
+            else if (rejtekHelystates == RejtekHelyStates.grabbingMenu)
+            {
+                rejtekhelyManager.GrabbingMenuRejtekHelyekAktival(grabStartSelection.name, grabFinishSelection.name);
+                
+               
+                if (mousedown||KeyDown=="Space")
+                {
+                    
+                    
+                    KeyDown = "";
+                    rejtekHelystates = RejtekHelyStates.normalmouseover;
+                 
+                 rejtekhelyManager.rejtekhelyGrabbingCancel();
+
+                 rejtekhelyManager.rejtekhelyGrabToAnotherMenu(false);
+                    grabStartSelection = null;
+                    EventTree();
+                }
+                else if (KeyDown=="Return")
+                {
+                    
+                   
+                    rejtekhelyManager.rejtekhelyPuskaGrabToAnother(grabStartSelection.name, grabFinishSelection.name);
+                    rejtekHelystates = RejtekHelyStates.normalmouseover;
+                    grabStartSelection = null;
+                    EventTree();
                 }
             }
             /*

@@ -13,15 +13,16 @@ namespace Resources.Kozos.Player.Rejtekhelyek
         private PlayerHivok playerHivok;
         private LookWithMouse lookWithMouse;
         private NyilController nyilController;
-        private Dictionary<string, PuskaKozos> puskaList;
+        private Dictionary<string, IPuskaKozos> puskaList;
 
-        public RejtekhelyManager(PlayerHivok playerHivok2, LookWithMouse lookWithMouse2)
+
+        public RejtekhelyManager(PlayerMain playerMain )
         {
-            nyilController = new NyilController(playerHivok2);
-            lookWithMouse = lookWithMouse2;
+            playerHivok = playerMain.playerHivok;
+            lookWithMouse = playerMain.lookWithMouse;
+            nyilController = new NyilController(playerMain.playerHivok);
             rejtekhelyek = new Dictionary<string, RejtekHely>();
-            playerHivok = playerHivok2;
-            rejtekhelyekInput = new RejtekhelyekInput(playerHivok,lookWithMouse);
+            rejtekhelyekInput = new RejtekhelyekInput(playerHivok, lookWithMouse, this);
 
 
             for (int i = 0; i < playerHivok.RejtekhelyHivok.Count; i++)
@@ -29,30 +30,29 @@ namespace Resources.Kozos.Player.Rejtekhelyek
                 rejtekhelyek.Add(playerHivok.RejtekhelyHivok[i].transform.name, new RejtekHely(i, playerHivok, rejtekhelyekInput, lookWithMouse));
             }
 
-            // rejtekhelyekInput.rejtekhelyMouseOverEvent += RejtekHelyHighLight;
-            // rejtekhelyekInput.rejtekhelyMouseLeaveEvent += RejtekHelyHighLightOff;
-            rejtekhelyekInput.rejtekhelyKlikkEvent += RejtekHelyMegnyit;
-            rejtekhelyekInput.rejtekhelyGrabStartEvent += rejtekhelyGrabbing;
-            rejtekhelyekInput.rejtekhelyGrabCancelEvent += rejtekhelyGrabbingCancel;
-            rejtekhelyekInput.rejtekhelyGrabToAnotherEvent += rejtekhelyPuskaGrabToAnother;
 
             lookWithMouse.ZoomMode += ZoomModeBekapcs;
-            puskaList = new Dictionary<string, PuskaKozos>();
+            puskaList = new Dictionary<string, IPuskaKozos>();
         }
 
-        void ZoomModeBekapcs(bool BE)
+        public bool zoomModeBekapcsBlock;
+
+        public void ZoomModeBekapcs(bool BE)
         {
-            if (BE)
+            if (!zoomModeBekapcsBlock)
             {
-                MindenRejtekHelyetAktival(false);
-            }
-            else
-            {
-                FoglaltRejtekHelyetAktival(true);
+                if (BE)
+                {
+                    MindenRejtekHelyetAktival(false);
+                }
+                else
+                {
+                    FoglaltRejtekHelyetAktival(true);
+                }
             }
         }
 
-        public void PuskakBetoltese(Dictionary<string, PuskaKozos> puskak)
+        public void PuskakBetoltese(Dictionary<string, IPuskaKozos> puskak)
         {
             puskaList = puskak;
             foreach (var puska in puskaList)
@@ -65,13 +65,14 @@ namespace Resources.Kozos.Player.Rejtekhelyek
         }
 
 
-        void RejtekHelyMegnyit(string rejtekhelyname)
+        public void RejtekHelyMegnyit(string rejtekhelyname)
         {
             lookWithMouse.ZoomMax();
         }
 
-        void FoglaltRejtekHelyetAktival(bool aktival)
+        public void FoglaltRejtekHelyetAktival(bool aktival)
         {
+            //MindenRejtekHelyetAktival(false);
             foreach (var rejtekHelyDict in rejtekhelyek)
             {
                 if (rejtekHelyDict.Value.puska != null)
@@ -82,7 +83,7 @@ namespace Resources.Kozos.Player.Rejtekhelyek
             }
         }
 
-        void MindenRejtekHelyetAktival(bool aktival)
+        public void MindenRejtekHelyetAktival(bool aktival)
         {
             foreach (var rejtekHelyDict in rejtekhelyek)
             {
@@ -91,7 +92,7 @@ namespace Resources.Kozos.Player.Rejtekhelyek
             }
         }
 
-        void UresRejtekHelyekAktival(bool aktival)
+        public void UresRejtekHelyekAktival(bool aktival)
         {
             foreach (var rejtekHelyDict in rejtekhelyek)
             {
@@ -102,8 +103,7 @@ namespace Resources.Kozos.Player.Rejtekhelyek
                 }
             }
         }
-
-        void rejtekhelyGrabbing(string rejtekhelyname)
+        public void rejtekhelyGrabbing(string rejtekhelyname)
         {
             var rejtekhely = rejtekhelyek[rejtekhelyname];
             nyilController.GrabbingStart(rejtekhely.rejtekHelyGameObject);
@@ -111,14 +111,24 @@ namespace Resources.Kozos.Player.Rejtekhelyek
             FoglaltRejtekHelyetAktival(false);
         }
 
-        void rejtekhelyGrabbingCancel()
+        public void GrabbingMenuRejtekHelyekAktival(string FromRejtekHely, string ToRejtekhely)
+        {
+            MindenRejtekHelyetAktival(false);
+            rejtekhelyek[FromRejtekHely].RejtekhelyAktival(true);
+            rejtekhelyek[ToRejtekhely].RejtekhelyAktival(true);
+            rejtekhelyek[FromRejtekHely].RejtekHelyHighLight(true);
+            rejtekhelyek[ToRejtekhely].RejtekHelyHighLight(true);
+        }
+
+       
+        public void rejtekhelyGrabbingCancel()
         {
             nyilController.GrabbingEnd();
             UresRejtekHelyekAktival(false);
             FoglaltRejtekHelyetAktival(true);
         }
 
-        void rejtekhelyPuskaGrabToAnother(string innen, string ide)
+        public void rejtekhelyPuskaGrabToAnother(string innen, string ide)
         {
             if (rejtekhelyek[innen].puska != null && rejtekhelyek[ide].puska == null)
             {
@@ -128,6 +138,22 @@ namespace Resources.Kozos.Player.Rejtekhelyek
             nyilController.GrabbingEnd();
             UresRejtekHelyekAktival(false);
             FoglaltRejtekHelyetAktival(true);
+            playerHivok.GrabbingMenuText.SetActive(false);
+        }
+
+        public void rejtekhelyGrabToAnotherJelzesStart(string start, string finish)
+        {
+            nyilController.GrabbingKetPontKozottStart(rejtekhelyek[start].rejtekHelyGameObject, rejtekhelyek[finish].rejtekHelyGameObject);
+        }
+
+        public void rejtekhelyGrabToAnotherJelzesEnd()
+        {
+            nyilController.GrabbingKetPontKozottEnd();
+        }
+
+        public void rejtekhelyGrabToAnotherMenu(bool BE)
+        {
+            playerHivok.GrabbingMenuText.SetActive(BE);
         }
     }
 }

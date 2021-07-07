@@ -17,7 +17,7 @@ namespace Resources.Kozos.Player.Rejtekhelyek
         private PlayerHivok playerHivok;
         private UpdateCaller updateCaller;
         private LookWithMouse lookWithMouse;
-        public PuskaKozos puska;
+        public IPuskaKozos puska;
 
         public RejtekHely(int i, PlayerHivok playerHivok2, RejtekhelyekInput rejtekhelyekInput, LookWithMouse lookWithMouse2)
         {
@@ -38,7 +38,7 @@ namespace Resources.Kozos.Player.Rejtekhelyek
         }
 
        
-        public void PuskaBetoltes(PuskaKozos puska2)
+        public void PuskaBetoltes(IPuskaKozos puska2)
         {
             puska = puska2;
             puska.PuskaGameObject.transform.position = rejtekHelyFelfedveGameObject.transform.position;
@@ -49,7 +49,7 @@ namespace Resources.Kozos.Player.Rejtekhelyek
      
         }
 
-        public PuskaKozos PuskaKivetel()
+        public IPuskaKozos PuskaKivetel()
         {
             rejtekHelyJelHatter.sprite = rejtekHelyJelGameObject.GetComponent<RejtekHelyJelSpritesHivok>().Atlatszo;
             rejtekHelyJelLogo.sprite = rejtekHelyJelGameObject.GetComponent<RejtekHelyJelSpritesHivok>().Atlatszo;
@@ -58,7 +58,7 @@ namespace Resources.Kozos.Player.Rejtekhelyek
             return d;
         }
 
-        public void PuskaBerakas(PuskaKozos puska2)
+        public void PuskaBerakas(IPuskaKozos puska2)
         {
             puska = puska2;
             puska.PuskaGameObject.transform.position = rejtekHelyFelfedveGameObject.transform.position;
@@ -74,7 +74,7 @@ namespace Resources.Kozos.Player.Rejtekhelyek
             rejtekHelyGameObject.SetActive(aktival);
             rejtekHelyJelGameObject.SetActive(aktival);
         }
-
+     
         void RejtekHelyJelMozgas()
         {
             //Debug.Log(playerHivok.CameraPlayer.WorldToScreenPoint(rejtekHelyGameObject.transform.position).x);

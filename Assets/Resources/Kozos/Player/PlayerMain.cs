@@ -10,18 +10,18 @@ namespace Resources.Kozos.Player
     public class PlayerMain
     {
         public GameObject playerGameObject;
-        private PlayerHivok playerHivok;
-        private LookWithMouse lookWithMouse;
+        public PlayerHivok playerHivok;
+        public LookWithMouse lookWithMouse;
         private RejtekhelyManager rejtekhelyManager;
         private PuskazasManager puskazasManager;
-        private Mentes mentes;
+        public Mentes mentes;
         public PlayerMain()
         {
             playerGameObject = GameObject.Instantiate(UnityEngine.Resources.Load("Kozos/Player/Player") as GameObject);
             playerHivok = playerGameObject.GetComponent<PlayerHivok>();
             lookWithMouse = new LookWithMouse(playerHivok.CameraPlayer, playerHivok.Nyak);
-            rejtekhelyManager = new RejtekhelyManager(playerHivok, lookWithMouse);
-            puskazasManager = new PuskazasManager(playerHivok,lookWithMouse);
+            rejtekhelyManager = new RejtekhelyManager(this);
+            puskazasManager = new PuskazasManager(this);
             
            
         }

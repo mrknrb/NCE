@@ -6,8 +6,10 @@
         normalmouseover,
         normalmousedown,
       
-        grabbing,
-        grabmenu,
+        grabbingArrow,
+        grabArrowTo,
+        grabbingMenu,
+        grabbingPuska
         
     }
 }
