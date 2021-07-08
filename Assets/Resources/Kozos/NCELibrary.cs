@@ -9,8 +9,8 @@ namespace Resources.Kozos
         {
             var x = To.x - From.x;
             var y = To.y - From.y;
-            float value = (float) ((Mathf.Atan2(x, y) / Math.PI) * 180f);
-            if (value < 0) value += 360f;
+            float value = (float) ((Mathf.Atan2(x, y) / Math.PI) * 180f)+180f;
+          // value += 180f;
             return value;
         }
     }
