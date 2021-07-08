@@ -1,5 +1,6 @@
 ﻿using System;
 using Resources.Kozos.Player.Puskazas.PuskazasiModszerek;
+using Resources.Kozos.Player.Rejtekhelyek.RejtekhelyUIElemek;
 using UnityEngine;
 using UnityEngine.UI;
 

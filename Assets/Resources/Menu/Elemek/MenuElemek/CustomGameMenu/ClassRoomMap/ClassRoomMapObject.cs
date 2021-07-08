@@ -10,14 +10,14 @@ namespace Resources.Menu.Elemek.MenuElemek.CustomGameMenu.ClassRoomMap
         private ClassRoomMap classRoomMapHivok;
         public ElemekGridObject elemekGridObject;
         public MapElemObject[,] mapElemGrid;
-        private Mentes mentes;
+        private static Mentes mentes;
 
-        public ClassRoomMapObject(Mentes mentes2)
+        public ClassRoomMapObject()
         {
            
-            elemekGridObject = new ElemekGridObject(mentes2);
-             mentes = mentes2;
-            elemekGridObject.ElemekGridFrissitesMentessel(mentes2);
+            elemekGridObject = new ElemekGridObject();
+             mentes = CustomGameScreen.mentesModositott;
+            elemekGridObject.ElemekGridFrissitesMentessel(mentes);
             classRoomMapHivok = GameObject.Find("ClassRoomMap").GetComponent<ClassRoomMap>();
         }
 
